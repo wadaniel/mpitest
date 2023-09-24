@@ -11,12 +11,10 @@ int main(int argc, char** argv) {
     MPI_Comm_size(MPI_COMM_WORLD, &world);
     printf("Hello: rank %d, world: %d\n",rank, world);
 
-    MPI_Info info;
-    int tmp = MPI_Info_create( &info );
+    int spawn_error;
+    MPI_Comm comm;
 
-    MPI_Comm comm_world = MPI_COMM_WORLD;
-    printf("info %d %d\n", rank, tmp);
-    MPI_Comm_spawn("./helloworld", MPI_ARGV_NULL, 1, info, 0,  MPI_COMM_SELF, &comm_world, MPI_ERRCODES_IGNORE);
-    printf("done %d\n", rank);
+    MPI_Comm_spawn("./helloworld", MPI_ARGV_NULL, 1, MPI_INFO_NULL, 0, MPI_COMM_SELF, &comm, &spawn_error);
+    printf("done %d %d\n", rank, spawn_error);
     MPI_Finalize();
 }
